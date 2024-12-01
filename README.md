@@ -18,3 +18,28 @@ Pastikan Anda sudah menginstal Node.js dan npm pada sistem Anda. Jika belum, And
 ```bash
 git clone https://github.com/aessaputra/asclepius-api.git
 cd asclepius-api
+```
+### Langkah 2: Clone Repository
+
+Jalankan perintah berikut untuk menginstal dependensi yang diperlukan:
+
+```bash
+npm install
+```
+
+### Langkah 3: Konfigurasi File .env
+Salin file .env.example ke .env dan sesuaikan konfigurasi (seperti, kunci Firebase atau modelnya).
+```bash
+cp .env.example .env
+```
+
+### Langkah 4: Jalankan Server
+```bash
+npm run dev
+```
+Atau, untuk menjalankan server dalam mode produksi, gunakan perintah:
+```bash
+npm start
+```
+
+API akan berjalan pada http://0.0.0.0:8000.
