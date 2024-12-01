@@ -146,5 +146,3 @@ Contoh Respons:
 * result: Hasil prediksi, dapat berupa "Cancer" atau "Non-cancer".
 * suggestion: Saran yang diberikan berdasarkan hasil prediksi.
 * createdAt: Tanggal dan waktu saat prediksi atau riwayat dibuat.
-
-Dokumentasi API di atas menyediakan informasi lengkap tentang endpoint `/predict` dan `/predict/histories`, termasuk deskripsi, detail endpoint, serta contoh respons untuk masing-masing skenario yang mungkin terjadi. Kamu dapat menggunakan format ini untuk dokumentasi API di dalam proyek Kamu.
