@@ -11,7 +11,7 @@ API untuk menganalisis gambar dan memberikan prediksi apakah gambar tersebut men
 
 ### Prasyarat
 
-Pastikan Anda sudah menginstal Node.js dan npm pada sistem Anda. Jika belum, Anda dapat mengunduhnya di [sini](https://nodejs.org/).
+Pastikan Kamu sudah menginstal Node.js dan npm pada sistem Kamu. Jika belum, Kamu dapat mengunduhnya di [sini](https://nodejs.org/).
 
 ### Langkah 1: Clone Repository
 
@@ -43,3 +43,108 @@ npm start
 ```
 
 API akan berjalan pada http://0.0.0.0:8000.
+
+# Dokumentasi API Asclepius
+
+## 1. Endpoint: `/predict`
+
+### Deskripsi
+Endpoint ini digunakan untuk mengirim gambar yang ingin diprediksi apakah mengindikasikan kanker kulit atau tidak. Gambar tersebut akan dianalisis menggunakan model pembelajaran mesin.
+
+### Detail Endpoint
+
+- **URL Endpoint**: `/predict`
+- **HTTP Method**: `POST`
+- **Content-Type**: `multipart/form-data`
+- **Request Body**:
+  - **image**: File gambar yang dikirimkan melalui form-data.
+    - **Format**: JPEG atau PNG
+    - **Ukuran Maksimal**: 1MB (1000000 byte)
+
+### Respons API
+
+#### Jika gambar mengindikasikan kanker:
+
+```json
+{
+  "status": "success",
+  "message": "Model is predicted successfully",
+  "data": {
+    "id": "77bd90fc-c126-4ceb-828d-f048dddff746",
+    "result": "Cancer",
+    "suggestion": "Segera periksa ke dokter!",
+    "createdAt": "2023-12-22T08:26:41.834Z"
+  }
+}
+```
+Jika gambar tidak mengindikasikan kanker:
+```json
+{
+  "status": "success",
+  "message": "Model is predicted successfully",
+  "data": {
+    "id": "77bd90fc-c126-4ceb-828d-f048dddff746",
+    "result": "Non-cancer",
+    "suggestion": "Penyakit kanker tidak terdeteksi.",
+    "createdAt": "2023-12-22T08:26:41.834Z"
+  }
+}
+```
+Jika gambar lebih dari 1MB (Payload Too Large):
+```json
+{
+  "status": "fail",
+  "message": "Payload content length greater than maximum allowed: 1000000"
+}
+```
+Jika terjadi kesalahan saat memproses gambar :
+```json
+{
+  "status": "fail",
+  "message": "Terjadi kesalahan dalam melakukan prediksi"
+}
+```
+
+## Endpoint: /predict/histories
+### Deskripsi
+Endpoint ini digunakan untuk mengambil riwayat prediksi yang telah dilakukan sebelumnya. Riwayat mencakup informasi tentang hasil prediksi dan saran yang diberikan.
+### Detail Endpoint
+* URL Endpoint: /predict/histories
+* HTTP Method: GET
+* Content-Type: application/json
+* Request Body: Tidak diperlukan request body pada endpoint ini.
+### Respons API
+Jika permintaan berhasil, respons API akan mengembalikan status "success" dengan data riwayat prediksi dalam bentuk array.
+Contoh Respons:
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "0011b2c7-bd40-43d5-8b6b-8da77c74446b",
+      "history": {
+        "id": "0011b2c7-bd40-43d5-8b6b-8da77c74446b",
+        "result": "Non-cancer",
+        "suggestion": "Penyakit kanker tidak terdeteksi.",
+        "createdAt": "2024-12-01T08:49:06.499Z"
+      }
+    },
+    {
+      "id": "027b9706-cf4b-458e-ac9d-af1f81cae94d",
+      "history": {
+        "id": "027b9706-cf4b-458e-ac9d-af1f81cae94d",
+        "result": "Cancer",
+        "suggestion": "Segera periksa ke dokter!",
+        "createdAt": "2024-12-01T10:05:51.894Z"
+      }
+    }
+  ]
+}
+```
+### Keterangan
+* id: ID unik untuk setiap prediksi atau riwayat.
+* result: Hasil prediksi, dapat berupa "Cancer" atau "Non-cancer".
+* suggestion: Saran yang diberikan berdasarkan hasil prediksi.
+* createdAt: Tanggal dan waktu saat prediksi atau riwayat dibuat.
+
+Dokumentasi API di atas menyediakan informasi lengkap tentang endpoint `/predict` dan `/predict/histories`, termasuk deskripsi, detail endpoint, serta contoh respons untuk masing-masing skenario yang mungkin terjadi. Kamu dapat menggunakan format ini untuk dokumentasi API di dalam proyek Kamu.
