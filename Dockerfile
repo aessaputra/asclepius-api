@@ -1,20 +1,15 @@
-# Menggunakan image Node.js versi 22.11.0
 FROM node:22.11.0
 
-# Set direktori kerja
 WORKDIR /usr/src/app
 
-# Menyalin package.json dan package-lock.json
 COPY package*.json ./
 
-# Menginstal dependensi
 RUN npm install
 
-# Menyalin semua file ke dalam image
 COPY . .
 
-# Mengekspos port
 EXPOSE 8000
 
-# Menjalankan aplikasi
+ENV MODEL_URL 'https://storage.googleapis.com/asclepius-mod2024/model.json'
+
 CMD ["node", "src/server.js"]

@@ -1,29 +1,28 @@
-import { Firestore } from '@google-cloud/firestore';
-import path from 'path';
-import dotenv from 'dotenv';
-
-dotenv.config();
-const pathKey = path.resolve(process.env.FIRESTORE_KEY_PATH);
+import { getAllData } from '../services/getAllData.js';
 
 export async function predictHistories(req, res, next) {
   try {
-    const db = new Firestore({
-      projectId: process.env.GCLOUD_PROJECT_ID,
-      keyFilename: pathKey,
-    });
-    const predictCollection = db.collection('predictions');
-    const snapshot = await predictCollection.get();
+    const allData = await getAllData();
 
-    const result = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      history: doc.data(),
-    }));
+    const formatAllData = allData.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        history: {
+          result: data.result,
+          createdAt: data.createdAt,
+          suggestion: data.suggestion,
+          id: doc.id
+        }
+      };
+    });
 
     res.status(200).json({
       status: 'success',
-      data: result,
+      data: formatAllData
     });
   } catch (error) {
+    console.error('Error fetching data:', error);
     next(error);
   }
 }
